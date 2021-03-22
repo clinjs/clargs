@@ -1,30 +1,41 @@
-declare interface Option {
+export interface Option {
   name: string;
   alias: string;
   description: string;
 }
 
-declare interface Command {
+export interface Command {
   name: string;
   description: string;
   options: Option[];
 }
 
-declare type Options = Option[];
-declare type Commands = Command[];
+export type Options = Option[];
+export type Commands = Command[];
 
-declare interface SetupOptions {
+export interface SetupOptions {
   usage: string;
   options: Options;
   commands: Commands;
 }
 
-declare interface OnCommandFailed {
+export interface OnCommandFailed {
   failed: boolean;
 }
 
-declare interface OnCommand {
+export interface OnCommand {
   so: (cb: any) => OnCommandFailed;
+}
+
+export interface Inezparser {
+  args: [];
+  options: Options;
+  commands: Comamnds;
+  setup(options: SetupOption): void;
+  parse(): void;
+  on(cb: any): OnCommand;
+  help(): void;
+  hasOption(option: string, alias: string): boolean
 }
 
 declare module "nezparser" {
