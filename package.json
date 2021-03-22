@@ -1,11 +1,21 @@
 {
   "name": "nezparser",
-  "version": "1.6.0",
-  "description": "nezparser is a light parser for building cli with node.js.",
+  "version": "1.7.0",
+  "description": "Lightweight parser that helps building cli.",
   "main": "./bin/nezparser.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "keywords": [
+    "command",
+    "option",
+    "parser",
+    "cli",
+    "argument",
+    "args",
+    "argv",
+    "ligthweight"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/PierreDemailly/nezparser.git"
