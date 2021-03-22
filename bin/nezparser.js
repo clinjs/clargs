@@ -28,7 +28,9 @@ const nezparser = {
     }
 
     if (this.args.includes(command)) {
-      cb();
+      const then = cb();
+      // eslint-disable-next-line consistent-return
+      return { then };
     }
   },
 
