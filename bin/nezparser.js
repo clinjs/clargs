@@ -79,6 +79,7 @@ const nezparser = {
     console.log(usage);
     console.log(options);
     console.log(commands);
+    process.exit();
   },
 };
 
