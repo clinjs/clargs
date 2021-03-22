@@ -55,27 +55,25 @@ const nezparser = {
 
   help() {
     const usage = this.usage ? `Usage: ${this.usage} \r\n` : '';
-    let str = '';
+    let optionsToString = '';
     for (const option of this.options) {
-      str += `\n  ${option.alias}, ${option.name}, ${option.description}\r`;
+      optionsToString += `\n  ${option.alias}, ${option.name}, ${option.description}\r`;
     }
-    const options = this.options ? `Options: ${str}` : '';
-    str = '';
+    const options = this.options ? `Options: ${optionsToString}` : '';
+    let commandsToString = '';
     for (const command of this.commands) {
-      str += `${command === this.commands[0] ? '\n' : '\n\n'}  ${nezbold.bold(command.name)} ${command.description} `;
+      commandsToString += `${command === this.commands[0] ? '\n' : '\n\n'}  ${nezbold.bold(command.name)} ${command.description} `;
       if (command.options) {
-        let oSpaces = '';
-        Array.from(command.name).map(() => oSpaces += ' ');
-        let strr = '';
+        let commandOptionsToString = '';
         for (const option of command.options) {
           let spaces = '';
           Array.from(command.name).map(() => spaces += ' ');
-          strr += `\n${spaces}${option.alias}, ${option.name}, ${option.description}\r`;
+          commandOptionsToString += `\n${spaces}${option.alias}, ${option.name}, ${option.description}\r`;
         }
-        str += strr ? `  ${strr}` : '';
+        commandsToString += commandOptionsToString ? `  ${commandOptionsToString}` : '';
       }
     }
-    const commands = this.commands ? `\nCommands: \n${str}` : '';
+    const commands = this.commands ? `\nCommands: \n${commandsToString}` : '';
     console.log(usage);
     console.log(options);
     console.log(commands);
