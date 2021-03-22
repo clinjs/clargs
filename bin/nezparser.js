@@ -81,6 +81,15 @@ const nezparser = {
     console.log(commands);
     process.exit();
   },
+
+  hasOption(name, alias) {
+    for (const option of this.options) {
+      if (option.name.replace('--', '') === name || option.alias.replace('-') === alias) {
+        return true;
+      }
+    }
+    return false;
+  },
 };
 
 module.exports = nezparser;
