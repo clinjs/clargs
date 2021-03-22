@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/PierreDemailly/nezparser.git"
   },
-  "author": "",
+  "author": "PierreDemailly",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/PierreDemailly/nezparser/issues"
