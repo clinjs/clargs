@@ -22,15 +22,35 @@ const nezparser = {
     }
   },
 
-  on(command, cb) {
-    if (!this.args) {
-      return;
+  on(command) {
+    if (!this.args || this.args[0] === 'help') {
+      return { 
+        so: () => { 
+          return { 
+            failed: () => false,
+          }
+        }
+      };
     }
 
-    if (this.args.includes(command)) {
-      // eslint-disable-next-line consistent-return
-      return { then: () => cb() };
+    if (this.args[0] === command) {
+      return { so: (cb) => { 
+        cb();
+        return {
+          failed: () => false
+        };
+      }};
     }
+
+    return { so: () => { 
+      return { 
+        failed: () => { 
+          return { 
+            message: 'Command not found: ' + this.args.join(' '),
+          }
+        }
+      }
+    }};
   },
 
   help() {
