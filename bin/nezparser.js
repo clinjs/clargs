@@ -62,3 +62,5 @@ const nezparser = {
     console.log(commands);
   },
 };
+
+module.exports = nezparser;
