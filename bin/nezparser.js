@@ -42,7 +42,7 @@ const nezparser = {
     const options = this.options ? `Options: ${str}` : '';
     str = '';
     for (const command of this.commands) {
-      str += `${command === this.commands[0] ? '\n' : '\n\n'}  ${nezbold.nezbold.bold(command.name)} ${command.description} `;
+      str += `${command === this.commands[0] ? '\n' : '\n\n'}  ${nezbold.bold(command.name)} ${command.description} `;
       if (command.options) {
         let oSpaces = '';
         Array.from(command.name).map(() => oSpaces += ' ');
