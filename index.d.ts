@@ -33,7 +33,7 @@ declare module "nezparser" {
   commands: Comamnds;
   function setup(options: SetupOption): void;
   function parse(): void;
-  function on(): OnCommand;
+  function on(cb: any): OnCommand;
   function help(): void;
   function hasOption(option: string, alias: string): boolean
 }
