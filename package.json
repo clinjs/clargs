@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/PierreDemailly/nezparser/issues"
   },
-  "homepage": "https://github.com/PierreDemailly/nezparser#readme"
+  "homepage": "https://github.com/PierreDemailly/nezparser#readme",
+  "dependencies": {
+    "nezbold": "^1.0.0"
+  }
 }

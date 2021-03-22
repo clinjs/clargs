@@ -1,50 +1,22 @@
 #!/usr/bin/env node
+/* eslint-disable no-restricted-syntax */
 
-/**
- * @typedef CommandOptions
- * @type {object}
- * @property {string} description - description of the option.
- * @property {string} name - name of the option
- */
+const nezbold = require('nezbold');
 
 const nezparser = {
   args: null,
-  commands: [],
-  programName: null,
+  options: null,
+  commands: null,
 
-  setProgramName(name) {
-    this.programName = name;
-  },
-
-  setProgramDesc(desc) {
-    this.desc = desc;
-  },
-
-  /**
-   *
-   * @param {string} command
-   * @param {CommandOptions[]} options
-   */
-  setCommand(command, options) {
-    if (command === '') {
-      throw Error('You cannot use empty command');
-    }
-    this.commands.push({
-      command,
-      options,
-    });
-  },
-
-  /**
-   * @param {CommandOptions[]} options
-   */
-  setOptions(options) {
-    this.commands.push({ command: '', options });
+  setup(options) {
+    this.usage = options.usage;
+    this.options = options.options;
+    this.commands = options.commands;
   },
 
   parse() {
     this.args = process.argv.slice(2);
-    
+
     if (this.args.length === 1 && this.args[0] === 'help') {
       this.help();
     }
@@ -61,21 +33,77 @@ const nezparser = {
   },
 
   help() {
-    if (!this.programName) {
-      throw Error('You need to setup programName, please use `setProgramName`');
+    const usage = this.usage ? `Usage: ${this.usage} \r\n` : '';
+    let str = '';
+    for (const option of this.options) {
+      str += `\n  ${option.alias}, ${option.name}, ${option.description}\r`;
     }
-    if (!this.setProgramDesc) {
-      throw Error('You need to setup programDesc, please use `setProgramDesc`');
-    }
-    console.log(this.programName + ' usage:');
-    console.log(this.programName + ' - ' + this.setProgramDesc);
-
-    const programCommand = this.commands.find((c) => c.command === '') || {};
-    if (programCommand.options) {
-      console.log(this.programName + ' options:');
-      for (const option of options) {
-        console.log(option.name + ' - ' + option.description);
+    const options = this.options ? `Options: ${str}` : '';
+    str = '';
+    for (const command of this.commands) {
+      str += `${command === this.commands[0] ? '\n' : '\n\n'}  ${nezbold.nezbold.bold(command.name)} ${command.description} `;
+      if (command.options) {
+        let oSpaces = '';
+        Array.from(command.name).map(() => oSpaces += ' ');
+        let strr = '';
+        for (const option of command.options) {
+          let spaces = '';
+          Array.from(command.name).map(() => spaces += ' ');
+          strr += `\n${spaces}${option.alias}, ${option.name}, ${option.description}\r`;
+        }
+        str += strr ? `  ${strr}` : '';
       }
     }
+    const commands = this.commands ? `\nCommands: \n${str}` : '';
+    console.log(usage);
+    console.log(options);
+    console.log(commands);
   },
 };
+
+const nezparse = nezparser;
+nezparse.setup({
+  usage: 'commity <command> <options>',
+  options: [
+    {
+      name: '--push',
+      alias: '-p',
+      description: 'push changes to current remote branch after commiting',
+    },
+    {
+      name: '--addAll',
+      alias: '-a',
+      description: 'add all staged changes before commiting',
+    },
+  ],
+  commands: [
+    {
+      name: 'init',
+      description: 'inititialize Commity',
+      options: [
+        {
+          name: '--overwrite',
+          alias: '-o',
+          description: 'overwrite existing config (if exist)',
+        },
+        {
+          name: '--addAll',
+          alias: '-a',
+          description: 'add all staged changes before commiting',
+        },
+      ],
+    },
+    {
+      name: 'setup',
+      description: 'inititialize Commity',
+      options: [
+        {
+          name: '--config',
+          alias: '-c',
+          description: 'config changes to current remote branch after commiting',
+        },
+      ],
+    },
+  ],
+});
+nezparse.parse();
