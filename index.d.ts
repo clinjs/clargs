@@ -30,8 +30,8 @@ export interface OnCommand {
 export interface Inezparser {
   args: [];
   options: Options;
-  commands: Comamnds;
-  setup(options: SetupOption): void;
+  commands: Commands;
+  setup(options: SetupOptions): void;
   parse(): void;
   on(cb: any): OnCommand;
   help(): void;
@@ -41,8 +41,8 @@ export interface Inezparser {
 declare module "nezparser" {
   args: [];
   options: Options;
-  commands: Comamnds;
-  function setup(options: SetupOption): void;
+  commands: Commands;
+  function setup(options: SetupOptions): void;
   function parse(): void;
   function on(cb: any): OnCommand;
   function help(): void;
