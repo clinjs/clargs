@@ -1,19 +1,23 @@
-# nezparser
+# Nezparser
 
-nezparser is a light parser for building cli with node.js.
+Nezparser is a simple light parser for building cli with node.js.
 
 # Installation 
+using npm `npm i nezparser`
 
-`npm i nezparser`
+using yarn `yarn add nezparser`
 
-# Usage
+# Setup
 
-Here is how i'm using it in [commity](https://github.com/PierreDemailly/commity/blob/main/bin/cli.js)
+use `nezparser.setup()` to configure your cli.
+
+|api|type|description|required
+|-|-|-|-|
+|usage|**String**|Explain how to use your cli.|Yes|
+|options|[options](#Options)|Define options the user can use.|No|
+|commands|[commands](#Commands)|Define the commands the user can use.|No|
+
 ```javascript
-const nezparser = require('nezparser');
-
-let initialized = true;
-
 nezparser.setup({
   usage: 'commity <command> <options>',
   options: [
@@ -45,27 +49,62 @@ nezparser.setup({
         },
       ],
     },
-    {
-      name: 'setup',
-      description: 'inititialize Commity',
-      options: [
-        {
-          name: '--config',
-          alias: '-c',
-          description: 'config changes to current remote branch after commiting',
-        },
-      ],
-    },
   ],
 });
-nezparser.parse();
+```
 
-nezparser.on('init').so(() => {
-  initialized = false;
-  init();
-});
+# Parse
 
-if (initialized && nezparser.hasOption('addAll', 'a'))) {
+Once you have setup nezparser, you have to use `nezparser.parse()` **before** 
+accessing [commands](#Commands) and [options](#Options).
+
+# Commands
+
+:pushpin: You have to use `nezparser.parse()` [Parse](#Parse) **before** `nezparser.on(command: string)`
+
+|Api|Return type|Description|
+|-|||
+|**Function** `commandUsed(command: string)`|**Boolean**|Allow you to know if a command is used.
+
+```javascript
+const nezparser = require('nezparser');
+
+nezparser.setup({
   // ...
+});
+nezparser.parse();
+nezparser.on('init').so(() => {
+  console.log('Command "init" used');
+});
+```
+
+## Help
+
+Nezparser includes `help` command that output cli usage, commands and options.
+
+# Options
+
+:pushpin: You have to use `nezparser.parse()` [Parse](#Parse) **before** `nezparser.hasOption(option: string, alias: string)`
+
+
+
+|Api|Return type|Description|
+|-|||
+|**Function** `hasOption(option: string, alias: string)`|**Boolean**|Allow you to know if an option is used.
+
+
+```javascript
+const nezparser = require('nezparser');
+
+nezparser.setup({
+  // ...
+});
+nezparser.parse();
+if (nezparser.hasOption('--foo', '-f',)) {
+  console.log('--foo option passed');
 }
 ```
+
+# Example
+
+Here is an example of use: [commity](https://github.com/PierreDemailly/commity/blob/main/bin/cli.js)
