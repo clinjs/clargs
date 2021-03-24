@@ -17,7 +17,6 @@ export interface SetupOptions {
   usage: string;
   options: Options;
   commands: Commands;
-  render: string;
 }
 
 export interface OnCommandFailed {
