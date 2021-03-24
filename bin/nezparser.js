@@ -24,33 +24,31 @@ const nezparser = {
 
   on(command) {
     if (!this.args || this.args[0] === 'help') {
-      return { 
-        so: () => { 
-          return { 
-            failed: () => false,
-          }
-        }
+      return {
+        so: () => ({
+          failed: () => false,
+        }),
       };
     }
 
     if (this.args[0] === command) {
-      return { so: (cb) => { 
-        cb();
-        return {
-          failed: () => false
-        };
-      }};
+      return {
+        so: (cb) => {
+          cb();
+          return {
+            failed: () => false,
+          };
+        },
+      };
     }
 
-    return { so: () => { 
-      return { 
-        failed: () => { 
-          return { 
-            message: 'Command not found: ' + this.args.join(' '),
-          }
-        }
-      }
-    }};
+    return {
+      so: () => ({
+        failed: () => ({
+          message: `Command not found: ${this.args.join(' ')}`,
+        }),
+      }),
+    };
   },
 
   help() {
@@ -67,6 +65,7 @@ const nezparser = {
         let commandOptionsToString = '';
         for (const option of command.options) {
           let spaces = '';
+          // eslint-disable-next-line no-return-assign
           Array.from(command.name).map(() => spaces += ' ');
           commandOptionsToString += `\n${spaces}${option.alias}, ${option.name}, ${option.description}\r`;
         }
@@ -81,8 +80,8 @@ const nezparser = {
   },
 
   hasOption(name, alias) {
-    for (const option of this.options) {
-      if (option.name.replace('--', '') === name || option.alias.replace('-') === alias) {
+    for (const arg of this.args) {
+      if (arg.replace('--', '') === name || arg.replace('-') === alias) {
         return true;
       }
     }
