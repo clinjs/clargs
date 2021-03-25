@@ -1,20 +1,15 @@
 /* eslint-disable no-undef */
-
-// eslint-disable-next-line import/order
 const sinon = require('sinon');
 const referee = require('@sinonjs/referee');
+const sinonChai = require('sinon-chai');
+const chai = require('chai');
+
 const nezparser = require('../bin/nezparser');
 
 const { assert } = referee;
-
-const chai = require('chai');
-const sinonChai = require('sinon-chai');
-
 const { expect } = chai;
-chai.use(sinonChai);
 
-// jest.mock('nezbold');
-// nezbold.bold.mockResolvedValue('bold');
+chai.use(sinonChai);
 
 describe('nezparser', () => {
   it('should setup', () => {
