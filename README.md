@@ -89,7 +89,7 @@ Nezparser includes `help` command that output cli usage, commands and options.
 
 
 |Api|Return type|Description|
-|-|||
+|-|-|-|
 |**Function** `hasOption(option: string, alias: string)`|**Boolean**|Allow you to know if an option is used.
 
 
