@@ -1,11 +1,19 @@
-pages:
-  stage: deploy
-  script:
-  - mkdir .public
-  - cp -r docs/. public
-  - mv .public public
-  artifacts:
-    paths:
-    - public
-  only:
-  - main
+os:
+  - 'linux'
+dist: trusty
+language: node_js
+node_js:
+  - '14.16.0'
+cache:
+  directories:
+    - ./node_modules
+
+before_install:
+  - npm install -g npm@6.10.3
+
+install:
+  - npm install
+
+script:
+  - npm run test
+  - npm run lint

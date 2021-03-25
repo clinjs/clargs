@@ -38,7 +38,8 @@ const nezparser = {
     const options = this.options ? `Options: ${optionsToString}` : '';
     let commandsToString = '';
     for (const command of this.commands) {
-      commandsToString += `${command === this.commands[0] ? '\n' : '\n\n'}  ${nezbold.bold(command.name)} ${command.description} `;
+      const firstCommand = command === this.commands[0];
+      commandsToString += `${firstCommand ? '\n' : '\n\n'}  ${nezbold.bold(command.name)} ${command.description} `;
       if (command.options) {
         let commandOptionsToString = '';
         for (const option of command.options) {
