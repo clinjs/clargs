@@ -77,4 +77,22 @@ describe('nezparser', () => {
     nezparser.parse();
     expect(nezparser.commandUsed('bar')).to.equal(false);
   });
+
+  it('hasOption should return true', () => {
+    process.argv = [0, 0, '--bar'];
+    nezparser.parse();
+    expect(nezparser.hasOption('bar', 'b')).to.equal(true);
+  });
+
+  it('hasOption should return true', () => {
+    process.argv = [0, 0, '-b'];
+    nezparser.parse();
+    expect(nezparser.hasOption('bar', 'b')).to.equal(true);
+  });
+
+  it('hasOption should return false', () => {
+    process.argv = [0, 0, 'foo'];
+    nezparser.parse();
+    expect(nezparser.hasOption('bar', 'b')).to.equal(false);
+  });
 });
