@@ -42,11 +42,6 @@ nezparser.setup({
           alias: '-o',
           description: 'overwrite existing config (if exist)',
         },
-        {
-          name: '--addAll',
-          alias: '-a',
-          description: 'add all staged changes before commiting',
-        },
       ],
     },
   ],
@@ -60,7 +55,7 @@ accessing [commands](#Commands) and [options](#Options).
 
 # Commands
 
-:pushpin: You have to use `nezparser.parse()` [Parse](#Parse) **before** `nezparser.on(command: string)`
+:pushpin: You have to use `nezparser.parse()` [Parse](#Parse) **before** `nezparser.hasCommand(command: string)`
 
 |Api|Return type|Description|
 |-|||
@@ -73,9 +68,9 @@ nezparser.setup({
   // ...
 });
 nezparser.parse();
-nezparser.on('init').so(() => {
+if (nezparser.commandUsed('init')) {
   console.log('Command "init" used');
-});
+};
 ```
 
 ## Help
@@ -107,4 +102,4 @@ if (nezparser.hasOption('--foo', '-f',)) {
 
 # Example
 
-Here is an example of use: [commity](https://github.com/PierreDemailly/commity/blob/main/bin/cli.js)
+Go to [commity](https://github.com/PierreDemailly/commity/blob/main/README.md) to see how it works.

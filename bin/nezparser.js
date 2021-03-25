@@ -22,33 +22,11 @@ const nezparser = {
     }
   },
 
-  on(command) {
-    if (!this.args || this.args[0] === 'help') {
-      return {
-        so: () => ({
-          failed: () => false,
-        }),
-      };
+  commandUsed(command) {
+    if (command === 'help') {
+      throw new Error('help is handle by nezparser');
     }
-
-    if (this.args[0] === command) {
-      return {
-        so: (cb) => {
-          cb();
-          return {
-            failed: () => false,
-          };
-        },
-      };
-    }
-
-    return {
-      so: () => ({
-        failed: () => ({
-          message: `Command not found: ${this.args.join(' ')}`,
-        }),
-      }),
-    };
+    return this.args[0] === command;
   },
 
   help() {
@@ -60,7 +38,8 @@ const nezparser = {
     const options = this.options ? `Options: ${optionsToString}` : '';
     let commandsToString = '';
     for (const command of this.commands) {
-      commandsToString += `${command === this.commands[0] ? '\n' : '\n\n'}  ${nezbold.bold(command.name)} ${command.description} `;
+      const firstCommand = command === this.commands[0];
+      commandsToString += `${firstCommand ? '\n' : '\n\n'}  ${nezbold.bold(command.name)} ${command.description} `;
       if (command.options) {
         let commandOptionsToString = '';
         for (const option of command.options) {
@@ -81,7 +60,7 @@ const nezparser = {
 
   hasOption(name, alias) {
     for (const arg of this.args) {
-      if (arg.replace('--', '') === name || arg.replace('-') === alias) {
+      if (arg.replace('--', '') === name || arg.replace('-', '') === alias) {
         return true;
       }
     }
