@@ -102,4 +102,4 @@ if (nezparser.hasOption('--foo', '-f',)) {
 
 # Example
 
-Here is an example of use: [commity](https://github.com/PierreDemailly/commity/blob/main/bin/cli.js)
+Go to [commity](https://github.com/PierreDemailly/commity/blob/main/README.md) to see how it works.

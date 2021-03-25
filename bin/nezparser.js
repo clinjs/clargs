@@ -60,7 +60,7 @@ const nezparser = {
 
   hasOption(name, alias) {
     for (const arg of this.args) {
-      if (arg.replace('--', '') === name || arg.replace('-') === alias) {
+      if (arg.replace('--', '') === name || arg.replace('-', '') === alias) {
         return true;
       }
     }
