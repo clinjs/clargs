@@ -22,33 +22,11 @@ const nezparser = {
     }
   },
 
-  on(command) {
-    if (!this.args || this.args[0] === 'help') {
-      return {
-        so: () => ({
-          failed: () => false,
-        }),
-      };
+  commandUsed(command) {
+    if (command === 'help') {
+      throw new Error('help is handle by nezparser');
     }
-
-    if (this.args[0] === command) {
-      return {
-        so: (cb) => {
-          cb();
-          return {
-            failed: () => false,
-          };
-        },
-      };
-    }
-
-    return {
-      so: () => ({
-        failed: () => ({
-          message: `Command not found: ${this.args.join(' ')}`,
-        }),
-      }),
-    };
+    return this.args[0] === command;
   },
 
   help() {

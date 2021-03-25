@@ -4,6 +4,9 @@
   "description": "Lightweight parser that helps building cli.",
   "main": "./bin/nezparser.js",
   "types": "index.d.ts",
+  "scripts": {
+    "jest": "jest --coverage"
+  },
   "keywords": [
     "command",
     "option",
@@ -25,6 +28,12 @@
   },
   "homepage": "https://github.com/PierreDemailly/nezparser#readme",
   "dependencies": {
-    "nezbold": "^1.0.0"
+    "nezbold": "^1.2.1"
+  },
+  "devDependencies": {
+    "@sinonjs/referee": "^8.0.0",
+    "chai": "^4.3.4",
+    "sinon": "^10.0.0",
+    "sinon-chai": "^3.6.0"
   }
 }
