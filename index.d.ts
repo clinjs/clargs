@@ -25,7 +25,7 @@ export interface Inezparser {
   commands: Commands;
   setup(options: SetupOptions): void;
   parse(): void;
-  hasCommand(cb: any): boolean;
+  commandUsed(cb: any): boolean;
   help(): void;
   hasOption(option: string, alias: string): boolean
 }
@@ -36,7 +36,7 @@ declare module "nezparser" {
   commands: Commands;
   function setup(options: SetupOptions): void;
   function parse(): void;
-  function hasCommand(command: string): boolean;
+  function commandUsed(command: string): boolean;
   function help(): void;
   function hasOption(option: string, alias: string): boolean
 }
