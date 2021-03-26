@@ -99,7 +99,3 @@ if (nezparser.hasOption('--foo', '-f',)) {
   console.log('--foo option passed');
 }
 ```
-
-# Example
-
-Go to [commity](https://github.com/PierreDemailly/commity/blob/main/README.md) to see how it works.
