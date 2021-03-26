@@ -1,6 +1,6 @@
 {
   "name": "nezparser",
-  "version": "1.8.1",
+  "version": "1.8.2",
   "description": "Lightweight parser that helps building cli.",
   "main": "./bin/nezparser.js",
   "types": "index.d.ts",
