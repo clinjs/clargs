@@ -19,21 +19,13 @@ export interface SetupOptions {
   commands: Commands;
 }
 
-export interface OnCommandFailed {
-  failed: boolean;
-}
-
-export interface OnCommand {
-  so: (cb: any) => OnCommandFailed;
-}
-
 export interface Inezparser {
   args: [];
   options: Options;
   commands: Commands;
   setup(options: SetupOptions): void;
   parse(): void;
-  on(cb: any): OnCommand;
+  hasCommand(cb: any): boolean;
   help(): void;
   hasOption(option: string, alias: string): boolean
 }
