@@ -14,7 +14,7 @@ use `nezparser.setup()` to configure your cli.
 |api|type|description|required
 |-|-|-|-|
 |usage|**String**|Explain how to use your cli.|Yes|
-|options|[Options](docs/interfaces/commands.md)[]|Define options the user can use.|No|
+|options|[Options](docs/interfaces/options.md)[]|Define options the user can use.|No|
 |commands|[Command](docs/interfaces/commands.md)|Define the commands the user can use.|No|
 
 ```javascript
@@ -51,7 +51,7 @@ nezparser.setup({
 # Parse
 
 Once you have setup nezparser, you have to use `nezparser.parse()` **before** 
-accessing [commands](#Commands) and [options](#Options).
+accessing [command](docs/interfaces/commands.md) and [option](docs/interfaces/options.md).
 
 # Commands
 
@@ -99,5 +99,3 @@ if (nezparser.hasOption('--foo', '-f',)) {
   console.log('--foo option passed');
 }
 ```
-
-![Command](docs/interfaces/commands.md)
