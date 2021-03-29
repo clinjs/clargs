@@ -1,3 +1,4 @@
+## Option
 ```ts
 interface Options {
     name: string;

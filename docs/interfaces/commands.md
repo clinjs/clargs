@@ -1,3 +1,4 @@
+## Command
 ```ts
 interface Command {
     name: string;

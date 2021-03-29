@@ -99,3 +99,5 @@ if (clargs.hasOption('foo', 'f')) {
   console.log('--foo option passed');
 }
 ```
+
+![Command](docs/interfaces/commands.md)
