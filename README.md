@@ -14,8 +14,8 @@ use `nezparser.setup()` to configure your cli.
 |api|type|description|required
 |-|-|-|-|
 |usage|**String**|Explain how to use your cli.|Yes|
-|options|[options](#Options)|Define options the user can use.|No|
-|commands|[commands](#Commands)|Define the commands the user can use.|No|
+|options|[Options](docs/interfaces/commands.md)[]|Define options the user can use.|No|
+|commands|[Command](docs/interfaces/commands.md)|Define the commands the user can use.|No|
 
 ```javascript
 nezparser.setup({

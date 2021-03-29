@@ -1,7 +1,7 @@
 ```ts
-interface Options {
+interface Command {
     name: string;
-    alias: string;
     description: string;
+    options: Options[];
 }
 ```
