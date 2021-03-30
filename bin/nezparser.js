@@ -26,7 +26,7 @@ const nezparser = {
     if (command === 'help') {
       throw new Error('help is handle by nezparser');
     }
-    return this.args[0] === command;
+    return this.args?.length > 0 ? this.args[0] === command : false;
   },
 
   help() {
