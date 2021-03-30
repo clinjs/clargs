@@ -14,8 +14,8 @@ use `nezparser.setup()` to configure your cli.
 |api|type|description|required
 |-|-|-|-|
 |usage|**String**|Explain how to use your cli.|Yes|
-|options|[Options](docs/interfaces/options.md)|Define options the user can use.|No|
-|commands|[Command](docs/interfaces/commands.md)|Define the commands the user can use.|No|
+|options|[Option](https://nezjs.github.io/nezparser/interfaces/option.html)|Define options the user can use.|No|
+|commands|[Command](https://nezjs.github.io/nezparser/interfaces/command.html)|Define the commands the user can use.|No|
 
 ```javascript
 nezparser.setup({
@@ -51,7 +51,7 @@ nezparser.setup({
 # Parse
 
 Once you have setup nezparser, you have to use `nezparser.parse()` **before** 
-accessing [command](docs/interfaces/commands.md) and [option](docs/interfaces/options.md).
+accessing [command](https://nezjs.github.io/nezparser/interfaces/command.html) and [option](https://nezjs.github.io/nezparser/interfaces/option.html).
 
 # Commands
 
@@ -97,5 +97,25 @@ nezparser.setup({
 nezparser.parse();
 if (nezparser.hasOption('--foo', '-f',)) {
   console.log('--foo option passed');
+}
+```
+
+# Interfaces
+
+## Option
+```ts
+interface Option {
+    name: string;
+    alias: string;
+    description: string;
+}
+```
+
+## Command
+```ts
+interface Command {
+    name: string;
+    description: string;
+    options: Options[];
 }
 ```
