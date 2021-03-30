@@ -14,8 +14,8 @@ use `clargs.setup()` to configure your cli.
 |api|type|description|required
 |-|-|-|-|
 |usage|**String**|Explain how to use your cli.|Yes|
-|options|[Option](https://nezjs.github.io/nezparser/interfaces/option.html)|Define options the user can use.|No|
-|commands|[Command](https://nezjs.github.io/nezparser/interfaces/command.html)|Define the commands the user can use.|No|
+|options|[Option](#option)|Define options the user can use.|No|
+|commands|[Command](#command)|Define the commands the user can use.|No|
 
 ```javascript
 clargs.setup({
