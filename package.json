@@ -1,12 +1,12 @@
 {
-  "name": "nezparser",
+  "name": "@clinjs/clargs",
   "version": "1.8.4",
   "description": "Lightweight parser that helps building cli.",
-  "main": "./bin/nezparser.js",
+  "main": "./bin/clargs.js",
   "types": "index.d.ts",
   "scripts": {
     "test": "jest --coverage",
-    "lint": "eslint ./bin/nezparser.js"
+    "lint": "eslint ./bin/clargs.js"
   },
   "keywords": [
     "command",
@@ -20,14 +20,14 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/PierreDemailly/nezparser.git"
+    "url": "git+https://github.com/clinjs/clargs.git"
   },
   "author": "PierreDemailly",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/PierreDemailly/nezparser/issues"
+    "url": "https://github.com/clinjs/clargs/issues"
   },
-  "homepage": "https://github.com/PierreDemailly/nezparser#readme",
+  "homepage": "https://github.com/clinjs/clargs#readme",
   "dependencies": {
     "nezbold": "^1.2.1"
   },

@@ -19,7 +19,7 @@ export interface SetupOptions {
   commands: Commands;
 }
 
-export interface Inezparser {
+export interface Iclargs {
   args: [];
   options: Options;
   commands: Commands;
@@ -30,7 +30,7 @@ export interface Inezparser {
   hasOption(option: string, alias: string): boolean
 }
 
-declare module "nezparser" {
+declare module "clargs" {
   args: [];
   options: Options;
   commands: Commands;

@@ -1,15 +1,15 @@
-# Nezparser
+# Clargs
 
-Nezparser is a simple light parser for building cli with node.js.
+Clargs is a simple light parser for building cli with node.js.
 
 # Installation 
-using npm `npm i nezparser`
+using npm `npm i @clijs/clargs`
 
-using yarn `yarn add nezparser`
+using yarn `yarn add @clinjs/clargs`
 
 # Setup
 
-use `nezparser.setup()` to configure your cli.
+use `clargs.setup()` to configure your cli.
 
 |api|type|description|required
 |-|-|-|-|
@@ -18,7 +18,7 @@ use `nezparser.setup()` to configure your cli.
 |commands|[commands](#Commands)|Define the commands the user can use.|No|
 
 ```javascript
-nezparser.setup({
+clargs.setup({
   usage: 'commity <command> <options>',
   options: [
     {
@@ -50,36 +50,36 @@ nezparser.setup({
 
 # Parse
 
-Once you have setup nezparser, you have to use `nezparser.parse()` **before** 
+Once you have setup clargs, you have to use `clargs.parse()` **before** 
 accessing [commands](#Commands) and [options](#Options).
 
 # Commands
 
-:pushpin: You have to use `nezparser.parse()` [Parse](#Parse) **before** `nezparser.hasCommand(command: string)`
+:pushpin: You have to use `clargs.parse()` [Parse](#Parse) **before** `clargs.hasCommand(command: string)`
 
 |Api|Return type|Description|
 |-|||
 |**Function** `commandUsed(command: string)`|**Boolean**|Allow you to know if a command is used.
 
 ```javascript
-const nezparser = require('nezparser');
+const clargs = require('@clinjs/clargs');
 
-nezparser.setup({
+clargs.setup({
   // ...
 });
-nezparser.parse();
-if (nezparser.commandUsed('init')) {
+clargs.parse();
+if (clargs.commandUsed('init')) {
   console.log('Command "init" used');
 };
 ```
 
 ## Help
 
-Nezparser includes `help` command that output cli usage, commands and options.
+Clargs includes `help` command that output cli usage, commands and options.
 
 # Options
 
-:pushpin: You have to use `nezparser.parse()` [Parse](#Parse) **before** `nezparser.hasOption(option: string, alias: string)`
+:pushpin: You have to use `clargs.parse()` [Parse](#Parse) **before** `clargs.hasOption(option: string, alias: string)`
 
 
 
@@ -89,13 +89,13 @@ Nezparser includes `help` command that output cli usage, commands and options.
 
 
 ```javascript
-const nezparser = require('nezparser');
+const clargs = require('@clinjs/clargs');
 
-nezparser.setup({
+clargs.setup({
   // ...
 });
-nezparser.parse();
-if (nezparser.hasOption('--foo', '-f',)) {
+clargs.parse();
+if (clargs.hasOption('--foo', '-f',)) {
   console.log('--foo option passed');
 }
 ```

@@ -3,7 +3,7 @@
 
 const nezbold = require('nezbold');
 
-const nezparser = {
+const clargs = {
   args: null,
   options: null,
   commands: null,
@@ -24,7 +24,7 @@ const nezparser = {
 
   commandUsed(command) {
     if (command === 'help') {
-      throw new Error('help is handle by nezparser');
+      throw new Error('command "help" is handled by clargs');
     }
     return this.args?.length > 0 ? this.args[0] === command : false;
   },
@@ -68,4 +68,4 @@ const nezparser = {
   },
 };
 
-module.exports = nezparser;
+module.exports = clargs;
