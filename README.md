@@ -3,7 +3,7 @@
 Clargs is a simple light parser for building cli with node.js.
 
 # Installation 
-using npm `npm i @clijs/clargs`
+using npm `npm i @clinjs/clargs`
 
 using yarn `yarn add @clinjs/clargs`
 
