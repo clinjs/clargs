@@ -58,7 +58,7 @@ accessing [commands](#Commands) and [options](#Options).
 :pushpin: You have to use `clargs.parse()` [Parse](#Parse) **before** `clargs.hasCommand(command: string)`
 
 |Api|Return type|Description|
-|-|||
+|-|-|-|
 |**Function** `commandUsed(command: string)`|**Boolean**|Allow you to know if a command is used.
 
 ```javascript
