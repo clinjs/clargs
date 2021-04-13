@@ -30,7 +30,7 @@ export interface Iclargs {
   hasOption(option: string, alias: string): boolean
 }
 
-declare module "clargs" {
+declare module "@clinjs/clargs" {
   args: [];
   options: Options;
   commands: Commands;
