@@ -95,7 +95,7 @@ clargs.setup({
   // ...
 });
 clargs.parse();
-if (clargs.hasOption('--foo', '-f',)) {
+if (clargs.hasOption('foo', 'f')) {
   console.log('--foo option passed');
 }
 ```
