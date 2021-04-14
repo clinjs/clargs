@@ -17,6 +17,8 @@ const clargs = {
   parse() {
     this.args = process.argv.slice(2);
 
+    this.validateArgs();
+
     if (this.args.length === 1 && this.args[0] === 'help') {
       this.help();
     }
@@ -67,6 +69,15 @@ const clargs = {
     }
     return false;
   },
+
+  validateArgs() {
+    const validArgs = [...this.commands].concat(this.options);
+    for (const arg of this.args) {
+      if (!validArgs.includes(arg)) {
+        throw new Error(`commity: ${arg} is not valid. See "commity help".`);
+      }
+    }
+  }
 };
 
 module.exports = clargs;
