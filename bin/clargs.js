@@ -44,8 +44,9 @@ const clargs = {
         let commandOptionsToString = '';
         for (const option of command.options) {
           let spaces = '';
-          // eslint-disable-next-line no-return-assign
-          Array.from(command.name).map(() => spaces += ' ');
+          for (let i = 0; i < command.name; i++) {
+            spaces += ' ';
+          }
           commandOptionsToString += `\n${spaces}${option.alias}, ${option.name}, ${option.description}\r`;
         }
         commandsToString += commandOptionsToString ? `  ${commandOptionsToString}` : '';
