@@ -77,7 +77,7 @@ const clargs = {
         throw new Error(`commity: ${arg} is not valid. See "commity help".`);
       }
     }
-  }
+  },
 };
 
 module.exports = clargs;
