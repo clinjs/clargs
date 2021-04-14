@@ -17,6 +17,8 @@ const clargs = {
   parse() {
     this.args = process.argv.slice(2);
 
+    this.validateArgs();
+
     if (this.args.length === 1 && this.args[0] === 'help') {
       this.help();
     }
@@ -44,8 +46,9 @@ const clargs = {
         let commandOptionsToString = '';
         for (const option of command.options) {
           let spaces = '';
-          // eslint-disable-next-line no-return-assign
-          Array.from(command.name).map(() => spaces += ' ');
+          for (let i = 0; i < command.name; i++) {
+            spaces += ' ';
+          }
           commandOptionsToString += `\n${spaces}${option.alias}, ${option.name}, ${option.description}\r`;
         }
         commandsToString += commandOptionsToString ? `  ${commandOptionsToString}` : '';
@@ -65,6 +68,19 @@ const clargs = {
       }
     }
     return false;
+  },
+
+  validateArgs() {
+    if (this.options.allowUnkown) {
+      return;
+    }
+
+    const validArgs = [...this.commands].concat(this.options);
+    for (const arg of this.args) {
+      if (!validArgs.includes(arg)) {
+        throw new Error(`commity: ${arg} is not valid. See "commity help".`);
+      }
+    }
   },
 };
 
