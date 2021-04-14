@@ -71,6 +71,10 @@ const clargs = {
   },
 
   validateArgs() {
+    if (this.options.allowUnkown) {
+      return;
+    }
+
     const validArgs = [...this.commands].concat(this.options);
     for (const arg of this.args) {
       if (!validArgs.includes(arg)) {
