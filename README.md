@@ -14,8 +14,8 @@ use `clargs.setup()` to configure your cli.
 |api|type|description|required
 |-|-|-|-|
 |usage|**String**|Explain how to use your cli.|Yes|
-|options|[options](#Options)|Define options the user can use.|No|
-|commands|[commands](#Commands)|Define the commands the user can use.|No|
+|options|[Option](#option)|Define options the user can use.|No|
+|commands|[Command](#command)|Define the commands the user can use.|No|
 
 ```javascript
 clargs.setup({
@@ -97,5 +97,25 @@ clargs.setup({
 clargs.parse();
 if (clargs.hasOption('foo', 'f')) {
   console.log('--foo option passed');
+}
+```
+
+# Interfaces
+
+## Option
+```ts
+interface Option {
+    name: string;
+    alias: string;
+    description: string;
+}
+```
+
+## Command
+```ts
+interface Command {
+    name: string;
+    description: string;
+    options: Option[];
 }
 ```

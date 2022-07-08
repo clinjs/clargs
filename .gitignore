@@ -105,3 +105,6 @@ dist
 
 # Editors
 .vscode
+
+# Doc
+.docs
