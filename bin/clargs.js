@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /* eslint-disable no-restricted-syntax */
 
-const nezbold = require('nezbold');
+const nezbold = require("nezbold");
 
 const clargs = {
   args: null,
@@ -19,42 +19,43 @@ const clargs = {
 
     this.validateArgs();
 
-    if (this.args.length === 1 && this.args[0] === 'help') {
+    if (this.args.length === 1 && this.args[0] === "help") {
       this.help();
     }
   },
 
   commandUsed(command) {
-    if (command === 'help') {
-      throw new Error('command "help" is handled by clargs');
+    if (command === "help") {
+      throw new Error("command \"help\" is handled by clargs");
     }
+
     return this.args?.length > 0 ? this.args[0] === command : false;
   },
 
   help() {
-    const usage = this.usage ? `Usage: ${this.usage} \r\n` : '';
-    let optionsToString = '';
+    const usage = this.usage ? `Usage: ${this.usage} \r\n` : "";
+    let optionsToString = "";
     for (const option of this.options) {
       optionsToString += `\n  ${option.alias}, ${option.name}, ${option.description}\r`;
     }
-    const options = this.options ? `Options: ${optionsToString}` : '';
-    let commandsToString = '';
+    const options = this.options ? `Options: ${optionsToString}` : "";
+    let commandsToString = "";
     for (const command of this.commands) {
       const firstCommand = command === this.commands[0];
-      commandsToString += `${firstCommand ? '\n' : '\n\n'}  ${nezbold.bold(command.name)} ${command.description} `;
+      commandsToString += `${firstCommand ? "\n" : "\n\n"}  ${nezbold.bold(command.name)} ${command.description} `;
       if (command.options) {
-        let commandOptionsToString = '';
+        let commandOptionsToString = "";
         for (const option of command.options) {
-          let spaces = '';
+          let spaces = "";
           for (let i = 0; i < command.name; i++) {
-            spaces += ' ';
+            spaces += " ";
           }
           commandOptionsToString += `\n${spaces}${option.alias}, ${option.name}, ${option.description}\r`;
         }
-        commandsToString += commandOptionsToString ? `  ${commandOptionsToString}` : '';
+        commandsToString += commandOptionsToString ? `  ${commandOptionsToString}` : "";
       }
     }
-    const commands = this.commands ? `\nCommands: \n${commandsToString}` : '';
+    const commands = this.commands ? `\nCommands: \n${commandsToString}` : "";
     console.log(usage);
     console.log(options);
     console.log(commands);
@@ -63,10 +64,11 @@ const clargs = {
 
   hasOption(name, alias) {
     for (const arg of this.args) {
-      if (arg.replace('--', '') === name || arg.replace('-', '') === alias) {
+      if (arg.replace("--", "") === name || arg.replace("-", "") === alias) {
         return true;
       }
     }
+
     return false;
   },
 
@@ -81,7 +83,7 @@ const clargs = {
         throw new Error(`commity: ${arg} is not valid. See "commity help".`);
       }
     }
-  },
+  }
 };
 
 module.exports = clargs;
