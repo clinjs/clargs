@@ -5,7 +5,7 @@
   "main": "./bin/clargs.js",
   "types": "index.d.ts",
   "scripts": {
-    "test": "jest --coverage",
+    "test": "tap",
     "lint": "eslint ./bin/clargs.js --fix"
   },
   "keywords": [
@@ -32,12 +32,13 @@
     "nezbold": "^1.2.1"
   },
   "devDependencies": {
+    "@nodesecure/eslint-config": "^1.4.1",
     "@sinonjs/referee": "^8.0.0",
     "chai": "^4.3.4",
     "eslint": "^7.21.0",
     "jest": "^26.6.3",
-    "@nodesecure/eslint-config": "^1.4.1",
     "sinon": "^10.0.0",
-    "sinon-chai": "^3.6.0"
+    "sinon-chai": "^3.6.0",
+    "tap": "^16.3.0"
   }
 }

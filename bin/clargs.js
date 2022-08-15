@@ -9,12 +9,12 @@ const clargs = {
   commands: null,
 
   setup(options) {
-    if (!options?.usage) {
-      throw new Error('options.usage is required.');
+    if (!options?.programName) {
+      throw new Error("options.programName is required.");
     }
 
-    if (!this.options.programName) {
-      throw new Error("options.programName is mandatory.");
+    if (!options.usage) {
+      throw new Error('options.usage is required.');
     }
 
     this.programName = options.programName;
@@ -28,7 +28,11 @@ const clargs = {
   parse() {
     this.args = process.argv.slice(2);
 
-    this.validateArgs();
+    try {
+      this.validateArgs();
+    } catch (error) {
+      throw error;
+    }
 
     if (this.args.length === 1 && this.args[0] === "help") {
       this.help();
@@ -40,7 +44,13 @@ const clargs = {
       throw new Error("command \"help\" is handled by clargs");
     }
 
-    return this.args?.length > 0 ? this.args[0] === command : false;
+    // TODO: the `includes` may lead to unexpected behavior.
+    // node xx.js myCommand --myOption whatIsThis
+    // `commandUsed("whatIsThis")` is truthy. Need to check:  
+    // -the use of command after given options ?
+    // -the use of multiple command ?
+    // -the use of option without command ?
+    return this.args?.length > 0 ? this.args.includes(command) : false;
   },
 
   help() {
@@ -87,15 +97,24 @@ const clargs = {
   },
 
   validateArgs() {
-    if (this.options.allowUnkown) {
+    if (this.options?.allowUnkown) {
       return;
     }
 
-    const validArgs = [...this.commands].concat(this.options);
+    // it would be better to set `this.comamnds` & `this.options` to `[]` when parsing
+    // it would allow to remove some others checks (loops for instance)
+    const validArgs = [...this.commands?.flatMap(command => [command.name, command.options?.flatMap(option => [
+      `--${option.name}`,
+      `-${option.alias}`
+    ])]) ?? []].concat(this.options?.flatMap(option => [
+      `--${option.name}`,
+      `-${option.alias}`
+    ]) ?? []).flat();
 
+    console.log('valid args', validArgs);
     for (const arg of this.args) {
       if (!validArgs.includes(arg)) {
-        throw new Error(`${arg} is not valid. Run "${programName} help" to see valid commands and options`);
+        throw new Error(`${arg} is not valid. Run "${this.programName} help" to see valid commands and options`);
       }
     }
   }
