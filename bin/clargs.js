@@ -9,6 +9,10 @@ const clargs = {
   commands: null,
 
   setup(options) {
+    if (!options?.usage) {
+      throw new Error('options.usage is required.');
+    }
+
     if (!this.options.programName) {
       throw new Error("options.programName is mandatory.");
     }
@@ -17,6 +21,8 @@ const clargs = {
     this.usage = options.usage;
     this.options = options.options;
     this.commands = options.commands;
+
+    this.parse();
   },
 
   parse() {
