@@ -9,9 +9,15 @@ const clargs = {
   commands: null,
 
   setup(options) {
+    if (!options?.usage) {
+      throw new Error('options.usage is required.');
+    }
+
     this.usage = options.usage;
     this.options = options.options;
     this.commands = options.commands;
+
+    this.parse();
   },
 
   parse() {
