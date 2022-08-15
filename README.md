@@ -13,12 +13,14 @@ use `clargs.setup()` to configure your cli.
 
 |api|type|description|required
 |-|-|-|-|
+|programName|**String**|The name used to run your cli.|Yes|
 |usage|**String**|Explain how to use your cli.|Yes|
 |options|[Option](#option)|Define options the user can use.|No|
 |commands|[Command](#command)|Define the commands the user can use.|No|
 
 ```javascript
 clargs.setup({
+  programName: 'commity',
   usage: 'commity <command> <options>',
   options: [
     {
