@@ -9,6 +9,11 @@ const clargs = {
   commands: null,
 
   setup(options) {
+    if (!this.options.programName) {
+      throw new Error("options.programName is mandatory.");
+    }
+
+    this.programName = options.programName;
     this.usage = options.usage;
     this.options = options.options;
     this.commands = options.commands;
@@ -34,32 +39,35 @@ const clargs = {
 
   help() {
     const usage = this.usage ? `Usage: ${this.usage} \r\n` : "";
-    let optionsToString = "";
-    for (const option of this.options) {
-      optionsToString += `\n  ${option.alias}, ${option.name}, ${option.description}\r`;
-    }
-    const options = this.options ? `Options: ${optionsToString}` : "";
+    console.log(usage);
+
+    const options = this.options ? `Options: ${this.options.map((
+      (option) => `\n  ${option.alias}, ${option.name}, ${option.description}\r`
+    ))}` : "";
+    console.log(options);
+
     let commandsToString = "";
+
     for (const command of this.commands) {
       const firstCommand = command === this.commands[0];
       commandsToString += `${firstCommand ? "\n" : "\n\n"}  ${nezbold.bold(command.name)} ${command.description} `;
+
       if (command.options) {
         let commandOptionsToString = "";
+
         for (const option of command.options) {
-          let spaces = "";
-          for (let i = 0; i < command.name; i++) {
-            spaces += " ";
-          }
+          const spaces = "".padStart(command.name.length, " ");
           commandOptionsToString += `\n${spaces}${option.alias}, ${option.name}, ${option.description}\r`;
         }
+
         commandsToString += commandOptionsToString ? `  ${commandOptionsToString}` : "";
       }
     }
+
     const commands = this.commands ? `\nCommands: \n${commandsToString}` : "";
-    console.log(usage);
-    console.log(options);
     console.log(commands);
-    process.exit();
+
+    return;
   },
 
   hasOption(name, alias) {
@@ -78,9 +86,10 @@ const clargs = {
     }
 
     const validArgs = [...this.commands].concat(this.options);
+
     for (const arg of this.args) {
       if (!validArgs.includes(arg)) {
-        throw new Error(`commity: ${arg} is not valid. See "commity help".`);
+        throw new Error(`${arg} is not valid. Run "${programName} help" to see valid commands and options`);
       }
     }
   }

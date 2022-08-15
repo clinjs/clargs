@@ -2,5 +2,8 @@
   "extends": "@nodesecure/eslint-config",
   "parserOptions": {
       "requireConfigFile": false
+  },
+  "rules": {
+    "@typescript-eslint/no-var-requires": 0
   }
 }
