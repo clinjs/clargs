@@ -44,12 +44,6 @@ const clargs = {
       throw new Error("command \"help\" is handled by clargs");
     }
 
-    // TODO: the `includes` may lead to unexpected behavior.
-    // node xx.js myCommand --myOption whatIsThis
-    // `commandUsed("whatIsThis")` is truthy. Need to check:  
-    // -the use of command after given options ?
-    // -the use of multiple command ?
-    // -the use of option without command ?
     return this.args?.length > 0 ? this.args.includes(command) : false;
   },
 
@@ -97,24 +91,27 @@ const clargs = {
   },
 
   validateArgs() {
+    const options = this.args.filter((arg) => arg.startsWith("-")).map((arg) => arg.replaceAll("-", ""));
+    const commands = this.args.filter((arg) => !arg.startsWith("-"));
+
+    if (commands.length > 1) {
+      throw new Error("Only one command is allowed.");
+    }
+
     if (this.options?.allowUnkown) {
       return;
     }
 
-    // it would be better to set `this.comamnds` & `this.options` to `[]` when parsing
-    // it would allow to remove some others checks (loops for instance)
-    const validArgs = [...this.commands?.flatMap(command => [command.name, command.options?.flatMap(option => [
-      `--${option.name}`,
-      `-${option.alias}`
-    ])]) ?? []].concat(this.options?.flatMap(option => [
-      `--${option.name}`,
-      `-${option.alias}`
-    ]) ?? []).flat();
+    if (!this.commands.map((cmd) => cmd.name)?.includes(commands[0])) {
+      throw new Error(`Command ${commands[0]} is not valid. Run "${this.programName} help" to see valid commands.`);
+    }
 
-    console.log('valid args', validArgs);
-    for (const arg of this.args) {
-      if (!validArgs.includes(arg)) {
-        throw new Error(`${arg} is not valid. Run "${this.programName} help" to see valid commands and options`);
+    for (const option of options) {
+      if (!this.options?.flatMap((option) => [option.name, option.alias]).includes(option)) {
+        const cmd = this.commands.find((cmd) => cmd.name === commands[0]);
+        if (!cmd.options?.flatMap((option) => [option.name, option.alias]).includes(option)) {
+          throw new Error(`Option ${option} is not valid. Run "${this.programName} help" to see valid options.`);
+        }
       }
     }
   }
