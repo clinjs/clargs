@@ -50,14 +50,7 @@ clargs.setup({
 });
 ```
 
-# Parse
-
-Once you have setup clargs, you have to use `clargs.parse()` **before** 
-accessing [commands](#Commands) and [options](#Options).
-
 # Commands
-
-:pushpin: You have to use `clargs.parse()` [Parse](#Parse) **before** `clargs.hasCommand(command: string)`
 
 |Api|Return type|Description|
 |-|-|-|
@@ -69,7 +62,7 @@ const clargs = require('@clinjs/clargs');
 clargs.setup({
   // ...
 });
-clargs.parse();
+
 if (clargs.commandUsed('init')) {
   console.log('Command "init" used');
 };
@@ -80,8 +73,6 @@ if (clargs.commandUsed('init')) {
 Clargs includes `help` command that output cli usage, commands and options.
 
 # Options
-
-:pushpin: You have to use `clargs.parse()` [Parse](#Parse) **before** `clargs.hasOption(option: string, alias: string)`
 
 
 
@@ -96,7 +87,7 @@ const clargs = require('@clinjs/clargs');
 clargs.setup({
   // ...
 });
-clargs.parse();
+
 if (clargs.hasOption('foo', 'f')) {
   console.log('--foo option passed');
 }
