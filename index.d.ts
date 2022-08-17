@@ -2,6 +2,7 @@ export interface Option {
   name: string;
   alias: string;
   description: string;
+  allowUnknown: boolean;
 }
 
 export interface Command {
@@ -35,7 +36,6 @@ declare module "@clinjs/clargs" {
   options: Options;
   commands: Commands;
   function setup(options: SetupOptions): void;
-  function parse(): void;
   function commandUsed(command: string): boolean;
   function help(): void;
   function hasOption(option: string, alias: string): boolean
