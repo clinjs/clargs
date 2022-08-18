@@ -14,7 +14,7 @@ const clargs = {
     }
 
     if (!options.usage) {
-      throw new Error('options.usage is required.');
+      throw new Error("options.usage is required.");
     }
 
     this.programName = options.programName;
@@ -30,7 +30,8 @@ const clargs = {
 
     try {
       this.validateArgs();
-    } catch (error) {
+    }
+    catch (error) {
       throw error;
     }
 
@@ -102,7 +103,7 @@ const clargs = {
       return;
     }
 
-    if (!this.commands.map((cmd) => cmd.name)?.includes(commands[0])) {
+    if (commands.length > 0 && !this.commands.map((cmd) => cmd.name)?.includes(commands[0])) {
       throw new Error(`Command ${commands[0]} is not valid. Run "${this.programName} help" to see valid commands.`);
     }
 
