@@ -9,12 +9,12 @@ const clargs = {
   commands: null,
 
   setup(options) {
-    if (!options?.usage) {
-      throw new Error('options.usage is required.');
+    if (!options?.programName) {
+      throw new Error("options.programName is required.");
     }
 
-    if (!this.options.programName) {
-      throw new Error("options.programName is mandatory.");
+    if (!options.usage) {
+      throw new Error("options.usage is required.");
     }
 
     this.programName = options.programName;
@@ -28,7 +28,12 @@ const clargs = {
   parse() {
     this.args = process.argv.slice(2);
 
-    this.validateArgs();
+    try {
+      this.validateArgs();
+    }
+    catch (error) {
+      throw error;
+    }
 
     if (this.args.length === 1 && this.args[0] === "help") {
       this.help();
@@ -40,7 +45,7 @@ const clargs = {
       throw new Error("command \"help\" is handled by clargs");
     }
 
-    return this.args?.length > 0 ? this.args[0] === command : false;
+    return this.args?.length > 0 ? this.args.includes(command) : false;
   },
 
   help() {
@@ -87,15 +92,27 @@ const clargs = {
   },
 
   validateArgs() {
-    if (this.options.allowUnkown) {
+    const options = this.args.filter((arg) => arg.startsWith("-")).map((arg) => arg.replaceAll("-", ""));
+    const commands = this.args.filter((arg) => !arg.startsWith("-"));
+
+    if (commands.length > 1) {
+      throw new Error("Only one command is allowed.");
+    }
+
+    if (this.options?.allowUnkown) {
       return;
     }
 
-    const validArgs = [...this.commands].concat(this.options);
+    if (commands.length > 0 && !this.commands.map((cmd) => cmd.name)?.includes(commands[0])) {
+      throw new Error(`Command ${commands[0]} is not valid. Run "${this.programName} help" to see valid commands.`);
+    }
 
-    for (const arg of this.args) {
-      if (!validArgs.includes(arg)) {
-        throw new Error(`${arg} is not valid. Run "${programName} help" to see valid commands and options`);
+    for (const option of options) {
+      if (!this.options?.flatMap((option) => [option.name, option.alias]).includes(option)) {
+        const cmd = this.commands.find((cmd) => cmd.name === commands[0]);
+        if (!cmd.options?.flatMap((option) => [option.name, option.alias]).includes(option)) {
+          throw new Error(`Option ${option} is not valid. Run "${this.programName} help" to see valid options.`);
+        }
       }
     }
   }

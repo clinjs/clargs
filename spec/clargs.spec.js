@@ -1,93 +1,134 @@
-/* eslint-disable no-undef */
-const sinon = require('sinon');
-const referee = require('@sinonjs/referee');
-const sinonChai = require('sinon-chai');
-const chai = require('chai');
+const tap = require("tap");
+const clargs = require("../bin/clargs.js");
 
-const clargs = require('../bin/clargs');
-
-const { assert } = referee;
-const { expect } = chai;
-
-chai.use(sinonChai);
-
-describe('clargs', () => {
-  it('should setup', () => {
-    clargs.setup({
-      usage: 'commity <command> <options>',
+const mockSetup = {
+  programName: "My Awesome Program",
+  usage: "MyAwesomeProgram <command> <options>",
+  commands: [
+    {
+      name: "command1",
+      description: "command1's description",
       options: [
         {
-          name: '--push',
-          alias: '-p',
-          description: 'push changes to current remote branch after commiting',
-        },
-      ],
-      commands: [
-        {
-          name: 'init',
-          description: 'inititialize Commity',
-          options: [
-            {
-              name: '--overwrite',
-              alias: '-o',
-              description: 'overwrite existing config (if exist)',
-            },
-          ],
-        },
-      ],
-    });
-    expect(clargs.usage).to.equal('commity <command> <options>');
-    expect(clargs.commands[0].name).to.equal('init');
-    expect(clargs.options[0].name).to.equal('--push');
+          name: "opt1",
+          alias: "o",
+          description: "opt1's description"
+        }
+      ]
+    }
+  ],
+  options: [
+    {
+      name: "random",
+      alias: "r",
+      description: "random's description"
+    }
+  ]
+};
+
+tap.ok(clargs, "it should import the lib");
+
+tap.test("clargs.setup", (t) => {
+  t.test("should throw because options.programName is required", (tb) => {
+    try {
+      clargs.setup();
+    }
+    catch (e) {
+      tb.equal(e.message, "options.programName is required.");
+    }
+    finally {
+      tb.end();
+    }
   });
 
-  it('should run help', () => {
-    spyOn(clargs, 'help').and.returnValue(true);
-    process.argv = [0, 0, 'help'];
-    sinon.spy(clargs, 'help');
-    clargs.parse();
-    assert(clargs.help.called);
+  t.test("should throw because options.usage is required", (tb) => {
+    try {
+      clargs.setup({ programName: "My Awesome Program" });
+    }
+    catch (e) {
+      tb.equal(e.message, "options.usage is required.");
+    }
+    finally {
+      tb.end();
+    }
   });
 
-  it('commandUsed should throw', () => {
-    expect(() => clargs.commandUsed('help')).to.throw('command "help" is handled by clargs');
+  t.test("should parse process.argv", (tb) => {
+    process.argv = [, , "command", "--option"];
+    clargs.setup({ programName: "My Awesome Program", usage: "MyAwesomeProgram <command> <options>", options: { allowUnkown: true } });
+
+    tb.ok(clargs.args, ["command", "--options"]);
+    tb.end();
   });
 
-  it('should help', () => {
-    spyOn(process, 'exit').and.returnValue(true);
-    sinon.spy(console, 'log');
-    clargs.help();
-    assert(console.log.called);
-    expect(console.log).to.have.callCount(3);
+  t.test("should parse declared commands & options", (tb) => {
+    process.argv = [, , "command1", "--opt1"];
+    clargs.setup(mockSetup);
+
+    tb.ok(clargs.commandUsed("command1"));
+    tb.ok(clargs.hasOption("opt1"));
+
+    tb.end();
   });
 
-  it('commandUsed should return true', () => {
-    process.argv = [0, 0, 'foo'];
-    clargs.parse();
-    expect(clargs.commandUsed('foo')).to.equal(true);
+  t.test("should throw when command is not declared", (tb) => {
+    process.argv = [, , "unkown command", "--opt1"];
+
+    try {
+      clargs.setup(mockSetup);
+    }
+    catch (error) {
+      tb.equal(error.message, "Command unkown command is not valid. Run \"My Awesome Program help\" to see valid commands.");
+    }
+    finally {
+      tb.end();
+    }
   });
 
-  it('commandUsed should return false', () => {
-    process.argv = [0, 0, 'foo'];
-    clargs.parse();
-    expect(clargs.commandUsed('bar')).to.equal(false);
+  t.test("should throw when multiple commands are used", (tb) => {
+    process.argv = [, , "command1", "command2", "--opt1"];
+
+    try {
+      clargs.setup(mockSetup);
+    }
+    catch (error) {
+      tb.equal(error.message, "Only one command is allowed.");
+    }
+    finally {
+      tb.end();
+    }
   });
 
-  it('hasOption should return true', () => {
-    process.argv = [0, 0, '--bar'];
-    clargs.parse();
-    expect(clargs.hasOption('bar', 'b')).to.equal(true);
+  t.test("should throw when option is not declared", (tb) => {
+    process.argv = [, , "command1", "--unkown option"];
+
+    try {
+      clargs.setup(mockSetup);
+    }
+    catch (error) {
+      tb.equal(error.message, "Option unkown option is not valid. Run \"My Awesome Program help\" to see valid options.");
+    }
+    finally {
+      tb.end();
+    }
   });
 
-  it('hasOption should return true', () => {
-    process.argv = [0, 0, '-b'];
-    clargs.parse();
-    expect(clargs.hasOption('bar', 'b')).to.equal(true);
+  t.test("should throw when option is declared in unused command", (tb) => {
+    process.argv = [,, "command2", "--opt1"];
+
+    const mock = { ...mockSetup };
+    mock.commands.push({ name: "command2", description: "command2's description" });
+
+    try {
+      clargs.setup(mock);
+    }
+    catch (error) {
+      tb.equal(error.message, "Option opt1 is not valid. Run \"My Awesome Program help\" to see valid options.");
+    }
+    finally {
+      tb.end();
+    }
   });
 
-  it('hasOption should return false', () => {
-    process.argv = [0, 0, 'foo'];
-    clargs.parse();
-    expect(clargs.hasOption('bar', 'b')).to.equal(false);
-  });
+  t.end();
 });
