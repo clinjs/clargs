@@ -15,6 +15,7 @@ export type Options = Option[];
 export type Commands = Command[];
 
 export interface SetupOptions {
+  allowUnknown: boolean;
   usage: string;
   options: Options;
   commands: Commands;

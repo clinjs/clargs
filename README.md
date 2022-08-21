@@ -9,7 +9,7 @@ using yarn `yarn add @clinjs/clargs`
 
 # Setup
 
-use `clargs.setup()` to configure your cli.
+use `clargs.setup(options)` to configure your cli.
 
 |api|type|description|required
 |-|-|-|-|
@@ -74,8 +74,6 @@ Clargs includes `help` command that output cli usage, commands and options.
 
 # Options
 
-
-
 |Api|Return type|Description|
 |-|-|-|
 |**Function** `hasOption(option: string, alias: string)`|**Boolean**|Allow you to know if an option is used.
@@ -95,13 +93,22 @@ if (clargs.hasOption('foo', 'f')) {
 
 # Interfaces
 
+## SetupOptions
+```ts
+interface SetupOptions {
+  allowUnknown: boolean;
+  usage: string;
+  options: Options;
+  commands: Commands;
+}
+
+```
 ## Option
 ```ts
 interface Option {
     name: string;
     alias: string;
     description: string;
-    allowUnknown: boolean;
 }
 ```
 
