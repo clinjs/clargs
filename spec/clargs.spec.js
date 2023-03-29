@@ -1,5 +1,6 @@
-const tap = require("tap");
 const clargs = require("../bin/clargs.js");
+const { describe, it } = require("node:test");
+const assert = require("assert");
 
 const mockSetup = {
   programName: "My Awesome Program",
@@ -26,109 +27,72 @@ const mockSetup = {
   ]
 };
 
-tap.ok(clargs, "it should import the lib");
+assert.ok(clargs, "it should import the lib");
 
-tap.test("clargs.setup", (t) => {
-  t.test("should throw because options.programName is required", (tb) => {
-    try {
-      clargs.setup();
-    }
-    catch (e) {
-      tb.equal(e.message, "options.programName is required.");
-    }
-    finally {
-      tb.end();
-    }
+describe("clargs.setup", () => {
+  it("should throw because options.programName is required", () => {
+    assert.throws(() => clargs.setup(), {
+      message: "options.programName is required."
+    });
   });
 
-  t.test("should throw because options.usage is required", (tb) => {
-    try {
-      clargs.setup({ programName: "My Awesome Program" });
-    }
-    catch (e) {
-      tb.equal(e.message, "options.usage is required.");
-    }
-    finally {
-      tb.end();
-    }
+  it("should throw because options.usage is required", () => {
+    assert.throws(() => clargs.setup({ programName: "My Awesome Program" }), {
+      message: "options.usage is required."
+    });
   });
 
-  t.test("should parse process.argv", (tb) => {
-    process.argv = [, , "command", "--option"];
-    clargs.setup({ programName: "My Awesome Program", usage: "MyAwesomeProgram <command> <options>", options: { allowUnkown: true } });
+  it("should parse process.argv", () => {
+    process.argv = [null, null, "command", "--option"];
+    clargs.setup({
+      programName: "My Awesome Program",
+      usage: "MyAwesomeProgram <command> <options>",
+      options: { allowUnkown: true }
+    });
 
-    tb.ok(clargs.args, ["command", "--options"]);
-    tb.end();
+    assert.ok(clargs.args, ["command", "--options"]);
   });
 
-  t.test("should parse declared commands & options", (tb) => {
-    process.argv = [, , "command1", "--opt1"];
+  it("should parse declared commands & options", () => {
+    process.argv = [null, null, "command1", "--opt1"];
     clargs.setup(mockSetup);
 
-    tb.ok(clargs.commandUsed("command1"));
-    tb.ok(clargs.hasOption("opt1"));
-
-    tb.end();
+    assert.ok(clargs.commandUsed("command1"));
+    assert.ok(clargs.hasOption("opt1"));
   });
 
-  t.test("should throw when command is not declared", (tb) => {
-    process.argv = [, , "unkown command", "--opt1"];
+  it("should throw when command is not declared", () => {
+    process.argv = [null, null, "unkown command", "--opt1"];
 
-    try {
-      clargs.setup(mockSetup);
-    }
-    catch (error) {
-      tb.equal(error.message, "Command unkown command is not valid. Run \"My Awesome Program help\" to see valid commands.");
-    }
-    finally {
-      tb.end();
-    }
+    assert.throws(() => clargs.setup(mockSetup), {
+      message: "Command unkown command is not valid. Run \"My Awesome Program help\" to see valid commands."
+    });
   });
 
-  t.test("should throw when multiple commands are used", (tb) => {
-    process.argv = [, , "command1", "command2", "--opt1"];
+  it("should throw when multiple commands are used", () => {
+    process.argv = [null, null, "command1", "command2", "--opt1"];
 
-    try {
-      clargs.setup(mockSetup);
-    }
-    catch (error) {
-      tb.equal(error.message, "Only one command is allowed.");
-    }
-    finally {
-      tb.end();
-    }
+    assert.throws(() => clargs.setup(mockSetup), {
+      message: "Only one command is allowed."
+    });
   });
 
-  t.test("should throw when option is not declared", (tb) => {
-    process.argv = [, , "command1", "--unkown option"];
+  it("should throw when option is not declared", () => {
+    process.argv = [null, null, "command1", "--unkown option"];
 
-    try {
-      clargs.setup(mockSetup);
-    }
-    catch (error) {
-      tb.equal(error.message, "Option unkown option is not valid. Run \"My Awesome Program help\" to see valid options.");
-    }
-    finally {
-      tb.end();
-    }
+    assert.throws(() => clargs.setup(mockSetup), {
+      message: "Option unkown option is not valid. Run \"My Awesome Program help\" to see valid options."
+    });
   });
 
-  t.test("should throw when option is declared in unused command", (tb) => {
-    process.argv = [,, "command2", "--opt1"];
+  it("should throw when option is declared in unused command", () => {
+    process.argv = [null, null, "command2", "--opt1"];
 
     const mock = { ...mockSetup };
     mock.commands.push({ name: "command2", description: "command2's description" });
 
-    try {
-      clargs.setup(mock);
-    }
-    catch (error) {
-      tb.equal(error.message, "Option opt1 is not valid. Run \"My Awesome Program help\" to see valid options.");
-    }
-    finally {
-      tb.end();
-    }
+    assert.throws(() => clargs.setup(mockSetup), {
+      message: "Option opt1 is not valid. Run \"My Awesome Program help\" to see valid options."
+    });
   });
-
-  t.end();
 });
